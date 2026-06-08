@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "lint": "eslint ."
   },
   "dependencies": {
     "hono": "^4.12.24"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@fanon/typescript-config": "workspace:*"
+    "@fanon/eslint-config": "workspace:*",
+    "@fanon/typescript-config": "workspace:*",
+    "eslint": "^9.0.0"
   }
 }
