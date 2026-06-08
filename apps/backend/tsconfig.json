@@ -1,0 +1,10 @@
+{
+  "extends": "@fanon/typescript-config/backend",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
