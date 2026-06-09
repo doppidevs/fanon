@@ -8,6 +8,7 @@ const getEnv = (key: string) => {
 }
 
 export const config = {
-  PORT: getEnv('PORT')
+  PORT: getEnv('PORT'),
+  DATABASE_URL: getEnv('DATABASE_URL'),
 }
 

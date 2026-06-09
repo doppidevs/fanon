@@ -1,5 +1,2 @@
-import { PrismaClient } from "@prisma/client/extension";
-
-const prisma = new PrismaClient();
-
-export default prisma;
+export { prisma } from "./db";
+export * from "./service";
