@@ -1,4 +1,4 @@
-import prisma from "@/db";
+import { prisma } from "@/db";
 import { PrismaClient } from "@/generated/prisma/client";
 
 export class UserService {

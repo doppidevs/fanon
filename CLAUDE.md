@@ -76,3 +76,7 @@ fanon/
 **Route structure**: All routes are registered on the Hono app in `src/libs/hono-app.ts` and exported; `src/index.ts` only wires Bun.serve.
 
 **Prisma setup**: The project uses a non-default `prisma.config.ts` (not `prisma/schema.prisma` directly for config). The schema lives at `prisma/schema.prisma` and migrations at `prisma/migrations/`. Generated client goes to `src/generated/prisma` — commit this path after `prisma generate`.
+
+## Avoid doing these commands from user
+
+1. Do not anything with git, (never and ever) just teach user how to do it
