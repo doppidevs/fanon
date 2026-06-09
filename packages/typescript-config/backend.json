@@ -5,6 +5,6 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["bun"]
+    "types": ["bun", "bun-types"]
   }
 }

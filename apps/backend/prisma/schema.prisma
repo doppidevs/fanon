@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum PaymentProvider {
+  PAYME
+  CLICK
+}
+
+// ─── Models ──────────────────────────────────────
+
+model User {
+  id         Int      @id @default(autoincrement())
+  telegramId BigInt   @unique
+  username   String?
+  firstName  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  channels   Channel[]
+}
+
+model Channel {
+  id         Int      @id @default(autoincrement())
+  telegramId BigInt   @unique
+  title      String
+  username   String?
+  ownerId    Int
+  owner      User     @relation(fields: [ownerId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  plans       SubscriptionPlan[]
+  subscribers Subscriber[]
+}
+
+model SubscriptionPlan {
+  id        Int      @id @default(autoincrement())
+  channelId Int
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  name      String
+  duration  Int      // kunlarda
+  price     Int      // tiyinda (so'm * 100)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id         Int                @id @default(autoincrement())
+  telegramId BigInt
+  planId     Int
+  plan       SubscriptionPlan   @relation(fields: [planId], references: [id])
+  status     SubscriptionStatus @default(ACTIVE)
+  startDate  DateTime           @default(now())
+  endDate    DateTime
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  payments   Payment[]
+}
+
+model Payment {
+  id             Int             @id @default(autoincrement())
+  subscriptionId Int
+  subscription   Subscription    @relation(fields: [subscriptionId], references: [id])
+  provider       PaymentProvider
+  amount         Int
+  status         PaymentStatus   @default(PENDING)
+  externalId     String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Subscriber {
+  id         Int       @id @default(autoincrement())
+  telegramId BigInt
+  channelId  Int
+  channel    Channel   @relation(fields: [channelId], references: [id])
+  joinedAt   DateTime  @default(now())
+  leftAt     DateTime?
+
+  @@unique([telegramId, channelId])
+}
