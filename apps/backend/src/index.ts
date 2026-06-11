@@ -1,5 +1,6 @@
 import app from "@/libs/hono-app";
 import { config } from "@/helpers";
+import { startBot } from "./bot";
 
 const PORT = config.PORT || 5500;
 
@@ -9,6 +10,7 @@ const bootstrap = async () => {
     fetch: app.fetch,
   });
   console.log(`Server is running on http://localhost:${server.port}`);
+  startBot();
 };
 
 bootstrap();

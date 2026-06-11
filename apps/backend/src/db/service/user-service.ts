@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { PrismaClient } from "@/generated/prisma/client";
+import { Prisma, PrismaClient } from "@/generated/prisma/client";
 
 export class UserService {
   constructor(private readonly db: PrismaClient) {}
@@ -12,13 +12,13 @@ export class UserService {
     return this.db.user.findUnique({ where: { telegramId } });
   }
 
-  upsert(data: {
-    telegramId: bigint;
-    username?: string | null;
-    firstName?: string | null;
-  }) {
+  create(data: Prisma.UserCreateInput) {
+    return this.db.user.create({ data });
+  }
+
+  upsert(data: Prisma.UserCreateInput) {
     return this.db.user.upsert({
-      where: { telegramId: data.telegramId },
+      where: { telegramId: data.telegramId as bigint },
       create: data,
       update: { username: data.username, firstName: data.firstName },
     });
